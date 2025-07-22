@@ -61,7 +61,6 @@ app.get("/save-user", function (req, resp) {
         }
         else{
             resp.send(errKuch.message);
-            console.log(errKuch.message);
         }
     })
 
