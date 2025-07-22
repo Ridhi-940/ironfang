@@ -55,7 +55,7 @@ app.get("/save-user", function (req, resp) {
     let utype = req.query.utype;
 
     if (!emailid || !password || !utype) {
-        return res.status(400).send("Missing fields");
+        return resp.status(400).send("Missing fields");
     }
 
     mySqlVen.query("insert into users values(?,?,?,current_date(),1) ;", [emailid, password, utype], function (errKuch) {
