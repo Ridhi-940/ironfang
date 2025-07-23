@@ -19,8 +19,8 @@
             $scope.jsonArray = [];
 
             $scope.doFetchAll = function () {
-                var url ="/do-fetch-all-tournaments?kuchCity="+$scope.selCity+"&kuchSport="+$scope.selSport;
-                
+                var url = "/do-fetch-all-tournaments?kuchCity=" + $scope.selCity + "&kuchSport=" + $scope.selSport + "&kuchAge=" + $scope.selAge;
+
                 $http.get(url).then(allGoodFx, someBadFx);
                 function allGoodFx(response) {
                     //resp in JSON array
@@ -71,9 +71,33 @@
                     alert(JSON.stringify(response.data));
                 }
             };
+            $scope.age = [];
+            $scope.doFetchAge = function () {
+                var url = "/do-fetch-age";
+
+                $http.get(url).then(allGoodFx, someBadFx);
+                function allGoodFx(response) {
+                    //resp in JSON array
+                    // alert(JSON.stringify(response.data));
+                    $scope.Min_age = response.data[0].Min_age;
+                    $scope.Max_age = response.data[0].Max_age;
+                    
+                    let i = $scope.Min_age;
+                    let index = 0;
+                    while (i <= $scope.Max_age) {
+                        $scope.age[index] = i;
+                        i++;
+                        index++;
+                    }
+                }
+
+                function someBadFx(response) {
+                    alert(JSON.stringify(response.data));
+                }
+            };
         })
     </script>
-    
+
 </head>
 
 <body ng-app="kuchModule" ng-controller="kuchController" style="background-color: black;">
@@ -96,7 +120,7 @@
     <center>
         <div class="container mt-4 mb-4 text-white">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <label class="form-label" ng-init="doFetchAllCities();"> City </label>
                     <select ng-model="selCity" class="form-select">
                         <option value="" selected disabled>Select</option>
@@ -105,7 +129,8 @@
                         </option>
                     </select>
                 </div>
-                <div class="col-md-6"  ng-init="doFetchAllSports();">
+
+                <div class="col-md-4" ng-init="doFetchAllSports();">
                     <label for="comboSport" class="form-label"> Sport </label>
                     <select class="form-select" ng-model="selSport">
                         <option selected value="" disabled>Select</option>
@@ -114,7 +139,17 @@
                         </option>
                     </select>
                 </div>
-                <!-- <div class="col-md-4">Age</div> -->
+
+                <div class="col-md-4" ng-init="doFetchAge();">
+                    <label for="comboAge" class="form-label"> Age </label>
+                    <select class="form-select" ng-model="selAge" id="comboAge">
+                        <option selected value="" disabled>Select</option>
+                        <option value="{{AGE}}" ng-repeat="AGE in age" id="{{AGE}}">
+                            {{AGE}}
+                        </option>
+                    </select>
+                </div>
+
             </div>
             <input type="button" value="Find Tournaments" class="btn btn-light mt-3 mb-2" ng-click="doFetchAll();">
             <div class="row">
@@ -156,9 +191,11 @@
             </div>
 
             <!-- Modal -->
-            <div class="modal fade" id="detailsModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background-color: black;">
+            <div class="modal fade" id="detailsModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true" style="background-color: black;">
                 <div class="modal-dialog mt-5">
-                    <div class="modal-content bg-dark text-white" style="font-size: larger;border: 5px white double;border-radius: 20px;">
+                    <div class="modal-content bg-dark text-white"
+                        style="font-size: larger;border: 5px white double;border-radius: 20px;">
                         <div class="modal-header">
                             <h1 class="modal-title fs-5 ms-auto" id="exampleModalLabel">
                                 <b>
@@ -202,7 +239,7 @@
     </center>
 
 
-<nav class="navbar bg-secondary fixed-bottom" style="line-height: .5vh;">
+    <nav class="navbar bg-secondary fixed-bottom" style="line-height: .5vh;">
         <div class="container-fluid">
             <div class="ms-1" style="width: 40rem;">
                 <div class="ms-1">

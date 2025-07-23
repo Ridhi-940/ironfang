@@ -25,7 +25,7 @@
                 $http.get(url).then(allGoodFx, someBadFx); // $http.get in angularJS = $ajax.get in jquery
                 function allGoodFx(response) {
                     //    alert(JSON.stringify(response.data));//resp in string
-                    $scope.doSearch();
+                    $scope.doFetch();
                 }
 
                 function someBadFx(response) {
@@ -38,8 +38,7 @@
 
                 $http.get(url).then(allGoodFx, someBadFx);
                 function allGoodFx(response) {
-                    //    alert(JSON.stringify(response.data));//resp in string
-                    // $scope.doFetchAll();
+                    
                     $scope.jsonarray = response.data;
                 }
 
@@ -55,7 +54,7 @@
     <script>
         function showUser() {
             let activeUser = localStorage.getItem("activeUser");
-            document.getElementById("txtEmail5").value = activeUser;
+            document.getElementById("txtEmail").value = activeUser;
         }
     </script>
 </head>
@@ -80,24 +79,14 @@
     </nav>
 
 
-
-    <!-- <div class="container mt-3">
-        <div class="input-group flex-nowrap mb-3" style="border: 1px black solid;">
-            <span class="input-group-text" id="addon-wrapping">@</span>
-            <input type="text" class="form-control" id="txtEmail5" placeholder="Email ID" aria-label="Username" aria-describedby="addon-wrapping" ng-model="txtEmail5">
-        </div>
-        <center class="mb-3">
-            <input type="button" value="Fetch All Data" ng-click="doFetch();">
-        </center> -->
-
-
     <div class="container">
 
         <div class="display-5 mt-4 text-white" style="font-family: 'Poppins', Dancing Script;text-align: center;">
             Your Tournaments
         </div>
 
-        <table class="table table-dark table-striped mt-4">
+        <div class="table-responsive">
+        <table class="table table-dark table-striped align-middle text-center mt-4">
             <thead>
                 <tr>
                     <th scope="col">S.No</th>
@@ -121,11 +110,12 @@
                     <td>{{obj.Prize}}</td>
                     <td>
                         <input type="button" value="Remove" class="btn btn-light"
-                            ng-click="doDelete(obj.R_ID);doFetch();">
+                            ng-click="doDelete(obj.R_ID);">
                     </td>
                 </tr>
             </tbody>
         </table>
+        </div>
     </div>
 
 

@@ -54,9 +54,7 @@ app.get("/save-user", function (req, resp) {
     let password = req.query.txtPwd1;
     let utype = req.query.utype;
 
-    if (!emailid || !password || !utype) {
-        return resp.status(400).send("Missing fields");
-    }
+   
 
     mySqlVen.query("insert into users values(?,?,?,current_date(),1) ;", [emailid, password, utype], function (errKuch) {
 
@@ -64,7 +62,7 @@ app.get("/save-user", function (req, resp) {
 
             resp.send("Record Saved Successfully.......");
         }
-        else{
+        else {
             resp.send(errKuch.message);
         }
     })
@@ -72,13 +70,26 @@ app.get("/save-user", function (req, resp) {
 })
 
 app.get("/do-login", function (req, resp) {
+
     let emailid = req.query.txtEmail2;
     let password = req.query.txtPwd2;
+
+    const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+    if (!emailRegex.test(emailid)) {
+        return resp.send("Invalid Email ID format.");
+    }
+
+    // ✅ Password validation (min 6 chars, at least one letter and one number)
+    const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
+    if (!passwordRegex.test(password)) {
+        return resp.send("Password must be at least 8 characters long and should include uppercase as well as lowercase letters, numbers and special characters.");
+    }
 
     mySqlVen.query("select * from users where emailid=? and password=? ;", [emailid, password], function (err, allRecords) {
 
         let status = allRecords[0].status;
         let utype = allRecords[0].utype;
+        
         if (allRecords.length == 1) {
             if (status == 0) {
                 resp.send("Blocked");
@@ -104,7 +115,7 @@ app.post("/do-send-to-server", async function (req, resp) {
         await cloudinary.uploader.upload(fullPath).then(function (picUrlResult) {
             picurl = picUrlResult.url;   //will give u the url of ur pic on cloudinary server
 
-            console.log(picurl);
+            // console.log(picurl);
         });
     }
     else
@@ -144,7 +155,7 @@ app.get("/do-search", function (req, resp) {
     mySqlVen.query(query, [Email_ID], function (err, allRecords) {
 
         if (allRecords.length == 0)
-            resp.send("No Record Found");
+            resp.send("Organization not recognized. Please check and try again.");
         else
             resp.json(allRecords);
 
@@ -450,7 +461,7 @@ app.post("/do-upload", async function (req, resp) {
             resp.send("Record uploaded Successfully !");
         }
         else
-            resp.send("workbench: " + errKuch);
+            resp.send(errKuch.message);
     })
 })
 
@@ -472,66 +483,65 @@ app.get("/do-get-data", function (req, resp) {
 })
 
 app.post("/do-update-player", async function (req, resp) {
-  
-        let picurlA = "";
-        let jsonData;
 
-        if (req.files != null && req.files.Adhaar != null) {
-            let fName = req.files.Adhaar.name;
-            let fullPath = __dirname + "/public/Upload/" + fName;
-            await req.files.Adhaar.mv(fullPath);
+    let picurlA = "";
+    let jsonData;
 
-            let result = await cloudinary.uploader.upload(fullPath);
-            picurlA = result.url;
-            jsonData = await RajeshBansalKaChirag(picurlA);
+    if (req.files != null && req.files.Adhaar != null) {
+        let fName = req.files.Adhaar.name;
+        let fullPath = __dirname + "/public/Upload/" + fName;
+        await req.files.Adhaar.mv(fullPath);
 
-            if (!jsonData || !jsonData.dob) {
-                return resp.status(400).send("Failed to extract Aadhaar data.");
-            }
-        } else {
-            picurlA = req.body.hdnA;
-            jsonData = {
-                adhaar_number: req.body.hdnAdhaarNumber || '',
-                name: req.body.hdnName || '',
-                gender: req.body.hdnGender || '',
-                dob: req.body.hdnDob || '',
-            };
+        let result = await cloudinary.uploader.upload(fullPath);
+        picurlA = result.url;
+        jsonData = await RajeshBansalKaChirag(picurlA);
+
+        if (!jsonData || !jsonData.dob) {
+            return resp.status(400).send("Failed to extract Aadhaar data.");
         }
+    } else {
+        picurlA = req.body.hdnA;
+        jsonData = {
+            adhaar_number: req.body.hdnAdhaarNumber || '',
+            name: req.body.hdnName || '',
+            gender: req.body.hdnGender || '',
+            dob: req.body.hdnDob || '',
+        };
+    }
 
-        let picurlP = "";
-        if (req.files != null && req.files.ProfilePic != null) {
-            let fName = req.files.ProfilePic.name;
-            let fullPath = __dirname + "/public/Upload/" + fName;
-            await req.files.ProfilePic.mv(fullPath);
+    let picurlP = "";
+    if (req.files != null && req.files.ProfilePic != null) {
+        let fName = req.files.ProfilePic.name;
+        let fullPath = __dirname + "/public/Upload/" + fName;
+        await req.files.ProfilePic.mv(fullPath);
 
-            let result = await cloudinary.uploader.upload(fullPath);
-            picurlP = result.url;
-        } else {
-            picurlP = req.body.hdnP;
-        }
+        let result = await cloudinary.uploader.upload(fullPath);
+        picurlP = result.url;
+    } else {
+        picurlP = req.body.hdnP;
+    }
 
-        //----------------------------------------------
-        let Email_ID = req.body.txtEmail4;
-        let Address = req.body.txtAddress2;
-        let Contact = req.body.txtContact;
-        let Game = req.body.comboSport2;
-        let Comments = req.body.txtComments2;
-        let dobMySQL = convertToMySQLDate(jsonData.dob);
+    //----------------------------------------------
+    let Email_ID = req.body.txtEmail4;
+    let Address = req.body.txtAddress2;
+    let Contact = req.body.txtContact;
+    let Game = req.body.comboSport2;
+    let Comments = req.body.txtComments2;
+    let dobMySQL = convertToMySQLDate(jsonData.dob);
 
-        mySqlVen.query(
-            "update players set Adhaar_url=?, ProfilePic_url=?, Adhaar_Number=?, Name=?, DOB=?, Gender=?, Address=?, Contact=?, Game=?, OtherInfo=? where Email_ID=?",
-            [picurlA, picurlP, jsonData.adhaar_number, jsonData.name, dobMySQL, jsonData.gender, Address, Contact, Game, Comments, Email_ID],
-            function (err, result) {
-                if (err == null) {
-                    resp.send("Updated Successfully !");
-                } else {
-                    console.error("DB Error:", err.message);
-                    // resp.status(500).send(err.message);
-                }
+    mySqlVen.query(
+        "update players set Adhaar_url=?, ProfilePic_url=?, Adhaar_Number=?, Name=?, DOB=?, Gender=?, Address=?, Contact=?, Game=?, OtherInfo=? where Email_ID=?",
+        [picurlA, picurlP, jsonData.adhaar_number, jsonData.name, dobMySQL, jsonData.gender, Address, Contact, Game, Comments, Email_ID],
+        function (err, result) {
+            if (err == null) {
+                resp.send("Updated Successfully !");
+            } else {
+                console.error("DB Error:", err.message);
+                // resp.status(500).send(err.message);
             }
-        );
+        }
+    );
 })
-
 
 app.get("/do-fetch-all-tournaments", function (req, resp) {
 
@@ -544,17 +554,45 @@ app.get("/do-fetch-all-tournaments", function (req, resp) {
     })
 })
 
+// app.get("/do-fetch-all-tournaments", function (req, resp) {
+
+//     let City = req.query.kuchCity;
+//     let Sport = req.query.kuchSport;
+//     let Age = req.query.kuchSport;
+
+
+//     mySqlVen.query("select * from tournament_details where City=?, Sport=?, Min_age<?", [City, Sport, Age], function (err, allRecords) {
+
+//         resp.send(allRecords);
+//     })
+// })
+
+
 app.get("/do-fetch-all-cities", function (req, resp) {
+
     mySqlVen.query("select distinct City from tournament_details", function (err, allRecords) {
+
         resp.send(allRecords);
+
     })
 })
 
 app.get("/do-fetch-all-sports", function (req, resp) {
+
     mySqlVen.query("select distinct Sport from tournament_details", function (err, allRecords) {
+
         resp.send(allRecords);
     })
 })
+
+app.get("/do-fetch-age", function (req, resp) {
+
+    mySqlVen.query("select distinct Min_age, Max_age from tournament_details", function (err, allRecords) {
+
+            resp.send(allRecords);
+    })
+})
+
 
 app.get("/do-update", function (req, resp) {
 

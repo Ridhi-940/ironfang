@@ -37,7 +37,7 @@
 
             // alert(responseJsonAry);
             // alert(JSON.stringify(responseJsonAry));
-            $("#hdn").val( responseJsonAry[0].Registration_Certificate);
+            $("#hdn").val(responseJsonAry[0].Registration_Certificate);
             $("#prev").prop("src", responseJsonAry[0].Registration_Certificate);
             let txtOrgName = responseJsonAry[0].Organisation_Name;
             let txtRegNumber = responseJsonAry[0].Registration_Number;
@@ -51,7 +51,7 @@
             let txtContact = responseJsonAry[0].Contact;
             let txtComments = responseJsonAry[0].Comments;
 
-              $("#txtOrgName").val(txtOrgName),
+            $("#txtOrgName").val(txtOrgName),
               $("#txtRegNumber").val(txtRegNumber),
               $("#txtAddress").val(txtAddress),
               $("#txtCity").val(txtCity),
@@ -73,11 +73,11 @@
     })
   </script>
   <script>
-    function showUser(){
-            let activeUser=localStorage.getItem("activeUser");
-            document.getElementById("txtEmail3").value=activeUser;
-        }
-    </script>
+    function showUser() {
+      let activeUser = localStorage.getItem("activeUser");
+      document.getElementById("txtEmail3").value = activeUser;
+    }
+  </script>
   </script>
 </head>
 
@@ -86,19 +86,19 @@
   <input type="hidden" id="hdn" name="hdn">
 
   <nav class="navbar bg-secondary" style="line-height: .5vh;">
-        <div class="container-fluid">
-            <div class="ms-1" style="width: 40rem;">
-                <div class="ms-1">
-                    <a href="./Pics/logo9-removebg-preview.png">
-                        <img src="./Pics/logo9-removebg-preview.png" alt=""
-                            style="border-radius: 50%;background-color: white;height: 3vh;float: left;">
-                    </a>
-                </div>
-                <span class="navbar-brand ms-2"
-                    style="font-style: italic;color: white;float: left;font-size: 17px;margin-top: .5vh;">www.ironfang.com</span>
-            </div>
+    <div class="container-fluid">
+      <div class="ms-1" style="width: 40rem;">
+        <div class="ms-1">
+          <a href="./Pics/logo9-removebg-preview.png">
+            <img src="./Pics/logo9-removebg-preview.png" alt=""
+              style="border-radius: 50%;background-color: white;height: 3vh;float: left;">
+          </a>
         </div>
-    </nav>
+        <span class="navbar-brand ms-2"
+          style="font-style: italic;color: white;float: left;font-size: 17px;margin-top: .5vh;">www.ironfang.com</span>
+      </div>
+    </div>
+  </nav>
 
   <div class="container mt-5 mb-5" style="border: 2px black solid;background-color: rgb(204, 201, 201);">
 
@@ -120,48 +120,48 @@
       </div>
       <div class="col-md-6">
         <label for="txtOrgName" class="form-label">Organisation Name</label>
-        <input type="text" class="form-control" id="txtOrgName" name="txtOrgName">
+        <input type="text" class="form-control" id="txtOrgName" name="txtOrgName" required>
       </div>
       <div class="col-md-6">
         <label for="txtRegNumber" class="form-label">Registration Number</label>
-        <input type="text" class="form-control" id="txtRegNumber" name="txtRegNumber" placeholder="">
+        <input type="text" class="form-control" id="txtRegNumber" name="txtRegNumber" required>
       </div>
       <div class="col-md-4">
         <label for="txtAddress" class="form-label">Address</label>
-        <input type="text" class="form-control" id="txtAddress" name="txtAddress" placeholder="">
+        <input type="text" class="form-control" id="txtAddress" name="txtAddress" required>
       </div>
       <div class="col-md-4">
         <label for="txtCity" class="form-label">City</label>
-        <input type="text" class="form-control" id="txtCity" name="txtCity">
+        <input type="text" class="form-control" id="txtCity" name="txtCity" required>
       </div>
       <div class="col-md-4">
         <label for="txtState" class="form-label">State</label>
-        <input type="text" class="form-control" id="txtState" name="txtState">
+        <input type="text" class="form-control" id="txtState" name="txtState" required>
       </div>
       <div class="col-md-4">
         <label for="txtDealsInSports" class="form-label">Deals in Sports</label>
-        <input type="text" class="form-control" id="txtDealsInSports" name="txtDealsInSports">
+        <input type="text" class="form-control" id="txtDealsInSports" name="txtDealsInSports" required>
       </div>
       <div class="col-md-4">
         <label for="txtHead" class="form-label">Head of Organisation / Host Name</label>
-        <input type="text" class="form-control" id="txtHead" name="txtHead">
+        <input type="text" class="form-control" id="txtHead" name="txtHead" required>
       </div>
       <div class="col-md-4">
         <label for="txtContact" class="form-label">Contact Number</label>
-        <input type="text" class="form-control" id="txtContact" name="txtContact">
+        <input type="text" class="form-control" id="txtContact" name="txtContact" required>
       </div>
       <div class="col-md-6">
-        <label for="txtWebsite" class="form-label">Website</label>
-        <input type="text" class="form-control" id="txtWebsite" name="txtWebsite" placeholder="">
+        <label for="txtWebsite" class="form-label">Website Link</label>
+        <input type="text" class="form-control" id="txtWebsite" name="txtWebsite" placeholder="" required>
       </div>
       <div class="col-md-6">
         <label for="txtInsta" class="form-label">Instagram Link</label>
-        <input type="text" class="form-control" id="txtInsta" name="txtInsta" placeholder="">
+        <input type="text" class="form-control" id="txtInsta" name="txtInsta" placeholder="" required>
       </div>
       <div class="row mt-3">
         <div class="mb-3 col-md-6">
           <label for="RegCertificate" class="form-label">Registration Certificate</label>
-          <input type="file" class="form-control" id="RegCertificate" name="RegCertificate"
+          <input type="file" class="form-control" id="RegCertificate" name="RegCertificate" required
             onchange="showPrev(RegCertificate,prev)" multiple>
         </div>
         <div class="mb-3 col-md-4 offset-md-2">
@@ -169,9 +169,9 @@
             style="border: 1px black solid;background-color: white;">
         </div>
       </div>
-          <label for="txtComments" class="form-label">Comments</label>
+      <label for="txtComments" class="form-label">Comments</label>
       <div class="form-floating mb-3 mt-1">
-        <textarea class="form-control" placeholder="Leave a comment here" id="txtComments" name="txtComments"
+        <textarea class="form-control" placeholder="Leave a comment here" id="txtComments" name="txtComments" required
           style="height: 100px"></textarea>
         <label for="txtComments">Comments</label>
       </div>
@@ -186,19 +186,19 @@
   </div>
 
   <nav class="navbar bg-secondary" style="line-height: .5vh;">
-        <div class="container-fluid">
-            <div class="ms-1" style="width: 40rem;">
-                <div class="ms-1">
-                    <a href="./Pics/logo9-removebg-preview.png">
-                        <img src="./Pics/logo9-removebg-preview.png" alt=""
-                            style="border-radius: 50%;background-color: white;height: 3vh;float: left;">
-                    </a>
-                </div>
-                <span class="navbar-brand ms-2"
-                    style="font-style: italic;color: white;float: left;font-size: 17px;margin-top: .5vh;">www.ironfang.com</span>
-            </div>
+    <div class="container-fluid">
+      <div class="ms-1" style="width: 40rem;">
+        <div class="ms-1">
+          <a href="./Pics/logo9-removebg-preview.png">
+            <img src="./Pics/logo9-removebg-preview.png" alt=""
+              style="border-radius: 50%;background-color: white;height: 3vh;float: left;">
+          </a>
         </div>
-    </nav>
+        <span class="navbar-brand ms-2"
+          style="font-style: italic;color: white;float: left;font-size: 17px;margin-top: .5vh;">www.ironfang.com</span>
+      </div>
+    </div>
+  </nav>
 
 </body>
 

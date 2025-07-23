@@ -43,6 +43,15 @@
                     alert("Please enter Email and Password");
                     return;
                 }
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test($("#txtEmail1").val())) {
+                    alert("Invalid email format.");
+                }
+                const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d).{8,}$/;
+                if (!passwordRegex.test($("#txtPwd1").val())) {
+                    alert("Password must be at least 8 characters long and should include uppercase letters, lowercase letters, numbers and special characters.");
+                    return;
+                }
                 let obj1 = {
                     type: "get",
                     url: "/save-user",
@@ -58,7 +67,7 @@
 
                     }).fail(function (err) {
 
-                        alert(err.message);
+                        alert("Please fill valid Email ID and Password");
 
                     })
             })
@@ -69,6 +78,16 @@
                     alert("Please enter Email and Password");
                     return;
                 }
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test($("#txtEmail2").val())) {
+                    alert("Invalid email format.");
+                }
+                const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d).{8,}$/;
+                if (!passwordRegex.test($("#txtPwd2").val())) {
+                    alert("Password must be at least 8 characters long and should include uppercase letters, lowercase letters, numbers and special characters.");
+                    return;
+                }
+
                 let obj2 = {
                     type: "get",
                     url: "/do-login",
@@ -134,7 +153,7 @@
             $("#txtEmail1").keyup(function () {
                 let email = $(this).val();//getter
                 //  let regex = /^[a-z0-9]+@[a-z]+\.[a-z]{2,3}$/;
-                let regex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+                let regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
                 if (email == "") {
                     $("#errMsgE1").html("Empty").css("color", "black");
@@ -153,7 +172,7 @@
             $("#txtEmail2").keyup(function () {
                 let email = $(this).val();//getter
                 //  let regex = /^[a-z0-9]+@[a-z]+\.[a-z]{2,3}$/;
-                let regex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+                let regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
                 if (email == "") {
                     $("#errMsgE2").html("Empty").css("color", "black").css("text-align", "left");
@@ -170,7 +189,7 @@
             })
 
             $("#txtPwd1").keyup(function () {
-                let regex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
+                let regex = /^(?=.*[A-Za-z])(?=.*\d).{8,}$/;
                 let pwd = $(this).val();
                 if (regex.test(pwd) == true)
                     $("#lblPwd1").html("Valid").css("color", "green");
@@ -178,7 +197,7 @@
                     $("#lblPwd1").html("Wrong Password").css("color", "red");
             })
             $("#txtPwd2").keyup(function () {
-                let regex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
+                let regex = /^(?=.*[A-Za-z])(?=.*\d).{8,}$/;
                 let pwd = $(this).val();
                 if (regex.test(pwd) == true)
                     $("#lblPwd2").html("Valid").css("color", "green");
@@ -271,8 +290,8 @@
                         <div class="mb-3">
                             <label for="txtPwd1" class="form-label">Password</label>
                             <div class="row form-control ms-0" style="height: 6vh;">
-                                <input type="password" class="ms-0" id="txtPwd1" placeholder="Password"
-                                    style="width: 85%;outline: none;float: left;border: 0px;">
+                                <input type="password" class="ms-0" id="txtPwd1" placeholder="Minimum 8 characters"
+                                    minlength="8" style="width: 85%;outline: none;float: left;border: 0px;">
                                 <i class="fa-solid fa-eye-slash" id="eye1"
                                     style="width: 5vh;float: right;margin-top: 1vh;"></i>
                             </div>
@@ -321,8 +340,8 @@
                         <div class="mb-3">
                             <label for="txtPwd2" class="form-label">Password</label>
                             <div class="row form-control ms-0" style="height: 6vh;">
-                                <input type="password" class="ms-0" id="txtPwd2" placeholder="Password"
-                                    style="width: 85%;outline: none;float: left;border: 0px;">
+                                <input type="password" class="ms-0" id="txtPwd2" placeholder="Minimum 8 characters"
+                                    minlength="8" style="width: 85%;outline: none;float: left;border: 0px;">
                                 <i class="fa-solid fa-eye-slash" id="eye2"
                                     style="width: 5vh;float: right;margin-top: 1vh;"></i>
                             </div>
@@ -574,7 +593,10 @@
                 <div class="card-title mt-3 mb-0" style="font-weight: bolder;font-size: larger;">Developed By
                 </div>
                 <div class="card-body">
-                    <p class="card-text">Ridhi Sharma</p>
+                    <center>
+                    <div class="card-text">Ridhi Sharma</div>
+                    <div class="card-text">Full Stack Developer</div>
+                    </center>
                 </div>
             </div>
         </div>
@@ -587,8 +609,10 @@
                 <div class="card-title mt-3 mb-0" style="font-weight: bolder;font-size: larger;"> Under the
                     Guidance of</div>
                 <div class="card-body">
+                    <center>
                     <div class="card-text">Rajesh Bansal</div>
                     <div class="card-text">Author of 'Real Java'</div>
+                    </center>
                 </div>
             </div>
         </div>
