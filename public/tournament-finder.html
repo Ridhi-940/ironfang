@@ -71,6 +71,7 @@
                     alert(JSON.stringify(response.data));
                 }
             };
+
             $scope.age = [];
             $scope.doFetchAge = function () {
                 var url = "/do-fetch-age";
@@ -81,7 +82,7 @@
                     // alert(JSON.stringify(response.data));
                     $scope.Min_age = response.data[0].Min_age;
                     $scope.Max_age = response.data[0].Max_age;
-                    
+
                     let i = $scope.Min_age;
                     let index = 0;
                     while (i <= $scope.Max_age) {
@@ -151,7 +152,7 @@
                 </div>
 
             </div>
-            <input type="button" value="Find Tournaments" class="btn btn-light mt-3 mb-2" ng-click="doFetchAll();">
+            <input type="button" value="Find Tournaments" class="btn btn-light mt-4 mb-4" ng-click="doFetchAll();">
             <div class="row">
                 <div class="col-md-3 mb-3" ng-repeat="obj in jsonArray">
                     <div class="card bg-dark text-white border border-light" style="border-radius: 20px;">
@@ -192,17 +193,18 @@
 
             <!-- Modal -->
             <div class="modal fade" id="detailsModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                aria-hidden="true" style="background-color: black;">
+                aria-hidden="true" style="background-color: rgba(0, 0, 0, 0.5);">
                 <div class="modal-dialog mt-5">
                     <div class="modal-content bg-dark text-white"
-                        style="font-size: larger;border: 5px white double;border-radius: 20px;">
+                        style="font-size: larger;border: 5px white double;border-radius: 20px;text-transform: uppercase;">
                         <div class="modal-header">
                             <h1 class="modal-title fs-5 ms-auto" id="exampleModalLabel">
                                 <b>
                                     {{oneRecord.Event_Name}}
                                 </b>
                             </h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
 
