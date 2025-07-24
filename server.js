@@ -496,10 +496,8 @@ app.post("/do-update-player", async function (req, resp) {
         picurlA = result.url;
         jsonData = await RajeshBansalKaChirag(picurlA);
 
-        if (!jsonData || !jsonData.dob) {
-            return resp.status(400).send("Failed to extract Aadhaar data.");
-        }
-    } else {
+    } 
+    else {
         picurlA = req.body.hdnA;
         jsonData = {
             adhaar_number: req.body.hdnAdhaarNumber || '',
@@ -529,15 +527,13 @@ app.post("/do-update-player", async function (req, resp) {
     let Comments = req.body.txtComments2;
     let dobMySQL = convertToMySQLDate(jsonData.dob);
 
-    mySqlVen.query(
-        "update players set Adhaar_url=?, ProfilePic_url=?, Adhaar_Number=?, Name=?, DOB=?, Gender=?, Address=?, Contact=?, Game=?, OtherInfo=? where Email_ID=?",
+    mySqlVen.query("update players set Adhaar_url=?, ProfilePic_url=?, Adhaar_Number=?, Name=?, DOB=?, Gender=?, Address=?, Contact=?, Game=?, OtherInfo=? where Email_ID=?",
         [picurlA, picurlP, jsonData.adhaar_number, jsonData.name, dobMySQL, jsonData.gender, Address, Contact, Game, Comments, Email_ID],
         function (err, result) {
             if (err == null) {
                 resp.send("Updated Successfully !");
             } else {
-                console.error("DB Error:", err.message);
-                // resp.status(500).send(err.message);
+                resp.send(err.message);
             }
         }
     );
@@ -547,26 +543,14 @@ app.get("/do-fetch-all-tournaments", function (req, resp) {
 
     let City = req.query.kuchCity;
     let Sport = req.query.kuchSport;
+    let Age = req.query.kuchAge;
 
-    mySqlVen.query("select * from tournament_details where City=? and Sport=?", [City, Sport], function (err, allRecords) {
+
+    mySqlVen.query("select * from tournament_details where City=? and Sport=? and Min_age<=? and ?<=Max_age", [City, Sport, Age, Age], function (err, allRecords) {
 
         resp.send(allRecords);
     })
 })
-
-// app.get("/do-fetch-all-tournaments", function (req, resp) {
-
-//     let City = req.query.kuchCity;
-//     let Sport = req.query.kuchSport;
-//     let Age = req.query.kuchSport;
-
-
-//     mySqlVen.query("select * from tournament_details where City=?, Sport=?, Min_age<?", [City, Sport, Age], function (err, allRecords) {
-
-//         resp.send(allRecords);
-//     })
-// })
-
 
 app.get("/do-fetch-all-cities", function (req, resp) {
 
