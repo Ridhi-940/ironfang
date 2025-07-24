@@ -54,8 +54,6 @@ app.get("/save-user", function (req, resp) {
     let password = req.query.txtPwd1;
     let utype = req.query.utype;
 
-   
-
     mySqlVen.query("insert into users values(?,?,?,current_date(),1) ;", [emailid, password, utype], function (errKuch) {
 
         if (errKuch == null) {
@@ -89,7 +87,7 @@ app.get("/do-login", function (req, resp) {
 
         let status = allRecords[0].status;
         let utype = allRecords[0].utype;
-        
+
         if (allRecords.length == 1) {
             if (status == 0) {
                 resp.send("Blocked");
@@ -104,7 +102,6 @@ app.get("/do-login", function (req, resp) {
 })
 
 app.post("/do-send-to-server", async function (req, resp) {
-
 
     let picurl = "";
     if (req.files != null) {
@@ -496,7 +493,7 @@ app.post("/do-update-player", async function (req, resp) {
         picurlA = result.url;
         jsonData = await RajeshBansalKaChirag(picurlA);
 
-    } 
+    }
     else {
         picurlA = req.body.hdnA;
         jsonData = {
@@ -545,7 +542,6 @@ app.get("/do-fetch-all-tournaments", function (req, resp) {
     let Sport = req.query.kuchSport;
     let Age = req.query.kuchAge;
 
-
     mySqlVen.query("select * from tournament_details where City=? and Sport=? and Min_age<=? and ?<=Max_age", [City, Sport, Age, Age], function (err, allRecords) {
 
         resp.send(allRecords);
@@ -573,7 +569,7 @@ app.get("/do-fetch-age", function (req, resp) {
 
     mySqlVen.query("select distinct Min_age, Max_age from tournament_details", function (err, allRecords) {
 
-            resp.send(allRecords);
+        resp.send(allRecords);
     })
 })
 

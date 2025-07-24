@@ -19,6 +19,36 @@
             $scope.jsonArray = [];
 
             $scope.doFetchAll = function () {
+                if (!$scope.selCity && !$scope.selSport && !$scope.selAge) {
+                    alert("Please select City, Sport and Age properly.");
+                    return;
+                }
+
+                if (!$scope.selCity && !$scope.selSport) {
+                    alert("Please choose your City and Sport");
+                    return;
+                }
+                if (!$scope.selCity && !$scope.selAge) {
+                    alert("Please choose your City and Age");
+                    return;
+                }
+                if (!$scope.selSport && !$scope.selAge) {
+                    alert("Please select your Sport and Age");
+                    return;
+                }
+                if (!$scope.selCity) {
+                    alert("Please select your City");
+                    return;
+                }
+                if (!$scope.selSport) {
+                    alert("Please choose your Sport");
+                    return;
+                }
+                if (!$scope.selAge) {
+                    alert("Please select your Age");
+                    return;
+                }
+
                 var url = "/do-fetch-all-tournaments?kuchCity=" + $scope.selCity + "&kuchSport=" + $scope.selSport + "&kuchAge=" + $scope.selAge;
 
                 $http.get(url).then(allGoodFx, someBadFx);
@@ -122,8 +152,8 @@
         <div class="container mt-4 mb-4 text-white">
             <div class="row">
                 <div class="col-md-4">
-                    <label class="form-label" ng-init="doFetchAllCities();"> City </label>
-                    <select ng-model="selCity" class="form-select">
+                    <label class="form-label" for="comboCity" ng-init="doFetchAllCities();"> City </label>
+                    <select ng-model="selCity" class="form-select" id="comboCity">
                         <option value="" selected disabled>Select</option>
                         <option ng-repeat="obj in cities" value="{{obj.City}}" id="{{obj.City}}">
                             {{obj.City}}
@@ -133,7 +163,7 @@
 
                 <div class="col-md-4" ng-init="doFetchAllSports();">
                     <label for="comboSport" class="form-label"> Sport </label>
-                    <select class="form-select" ng-model="selSport">
+                    <select class="form-select" ng-model="selSport" id="comboSport">
                         <option selected value="" disabled>Select</option>
                         <option value="{{obj.Sport}}" ng-repeat="obj in sports" id="{{obj.Sport}}">
                             {{obj.Sport}}
