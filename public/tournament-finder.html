@@ -239,7 +239,7 @@
                         <div class="modal-body">
 
                             <p class="align-left-bold-heading">
-                                Date of Event : {{oneRecord.DOE}}
+                                Date of Event : {{oneRecord.DOE|date:'dd-mm-yyyy'}}
                             </p>
                             <p class="align-left-bold-heading">
                                 Time Of Event : {{oneRecord.TOE}}
@@ -254,7 +254,7 @@
                                 Minimum Age : {{oneRecord.Min_age}} || Maximum Age : {{oneRecord.Max_age}}
                             </p>
                             <p class="align-left-bold-heading">
-                                Last Date Of Registration : {{oneRecord.LastDate}}
+                                Last Date Of Registration : {{oneRecord.LastDate|date:'dd-mm-yyyy'}}
                             </p>
                             <p class="align-left-bold-heading">
                                 Entry Fees : {{oneRecord.Fee}}
