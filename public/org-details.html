@@ -51,7 +51,7 @@
             let txtContact = responseJsonAry[0].Contact;
             let txtComments = responseJsonAry[0].Comments;
 
-            $("#txtOrgName").val(txtOrgName),
+              $("#txtOrgName").val(txtOrgName),
               $("#txtRegNumber").val(txtRegNumber),
               $("#txtAddress").val(txtAddress),
               $("#txtCity").val(txtCity),
@@ -161,11 +161,11 @@
       <div class="row mt-3">
         <div class="mb-3 col-md-6">
           <label for="RegCertificate" class="form-label">Registration Certificate</label>
-          <input type="file" class="form-control" id="RegCertificate" name="RegCertificate" required
-            onchange="showPrev(RegCertificate,prev)" multiple>
+          <input type="file" class="form-control" id="RegCertificate" name="RegCertificate"
+            onchange="showPrev(RegCertificate,prev)">
         </div>
         <div class="mb-3 col-md-4 offset-md-2">
-          <img src="" width="100" height="100" id="prev" alt=""
+          <img src="" width="100" height="100" id="prev" alt="" required
             style="border: 1px black solid;background-color: white;">
         </div>
       </div>
