@@ -189,7 +189,7 @@ app.post("/Modify-user", async function (req, resp) {
         });
     }
     else
-        picurl = req.body.hdn;
+        picurl = "nopic.jpg";
 
     let Email_ID = req.body.txtEmail3;
     let Organisation_Name = req.body.txtOrgName;
@@ -206,13 +206,13 @@ app.post("/Modify-user", async function (req, resp) {
 
     mySqlVen.query("update org_details set  Organisation_Name=?, Registration_Number=?, Address=?, City=?, State=?, Deals_In_Sports=?, Head=?, Website=?, Insta=?, Contact=?, Registration_Certificate=?, Comments=? where Email_ID=? ;", [Organisation_Name, Registration_Number, Address, City, State, Deals_In_Sports, Head, Website, Insta, Contact, picurl, Comments, Email_ID], function (err, result) {
 
-        {
+        
             if (err == null) {
                 resp.send("Modified Successfully ...");
             }
             else
                 resp.send(err.message);
-        }
+        
     })
 })
 
