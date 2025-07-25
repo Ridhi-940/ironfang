@@ -53,8 +53,8 @@ app.get("/save-user", function (req, resp) {
     let emailid = req.query.txtEmail1;
     let password = req.query.txtPwd1;
     let utype = req.query.utype;
-
-    if (utype == "none") {
+    
+    if(utype=="none"){
         resp.send("Please select an User Type");
         return;
     }
@@ -189,7 +189,7 @@ app.post("/Modify-user", async function (req, resp) {
         });
     }
     else
-        picurl = "nopic.jpg";
+        picurl = req.body.hdn.value;
 
     let Email_ID = req.body.txtEmail3;
     let Organisation_Name = req.body.txtOrgName;
@@ -204,31 +204,15 @@ app.post("/Modify-user", async function (req, resp) {
     let Contact = req.body.txtContact;
     let Comments = req.body.txtComments;
 
-    mySqlVen.query("update org_details set  Organisation_Name=?, Registration_Number=?, Address=?, City=?, State=?, Deals_In_Sports=?, Head=?, Website=?, Insta=?, Contact=?, Registration_Certificate=?, Comments=? where Email_ID=? ;", [Organisation_Name, Registration_Number, Address, City, State, Deals_In_Sports, Head, Website, Insta, Contact, picurl, Comments, Email_ID], function (err, result1) {
+    mySqlVen.query("update org_details set  Organisation_Name=?, Registration_Number=?, Address=?, City=?, State=?, Deals_In_Sports=?, Head=?, Website=?, Insta=?, Contact=?, Registration_Certificate=?, Comments=? where Email_ID=? ;", [Organisation_Name, Registration_Number, Address, City, State, Deals_In_Sports, Head, Website, Insta, Contact, picurl, Comments, Email_ID], function (err, result) {
 
-        if (err == null) {
-            if (result1.affectedRows == 1) {
-
-                if (picurl == "nopic.jpg") {
-                    resp.send("Modified Successfully");
-                }
-                else {
-                    mySqlVen.query("update org_details set Registration_Certificate=? where Email_ID=?", [picurl, Email_ID], function (errKuch, result2) {
-                        if (result2.affectedRows == 1) {
-                            resp.send("Modified Successfully");
-                        }
-                        else
-                            resp.send(errKuch.message);
-                    })
-                }
-
+        
+            if (err == null) {
+                resp.send("Modified Successfully ...");
             }
             else
-                resp.send("Organization not recognized. Please check and try again.");
-        }
-        else
-            resp.send(err.message);
-
+                resp.send(err.message);
+        
     })
 })
 
