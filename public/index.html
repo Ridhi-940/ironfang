@@ -39,8 +39,16 @@
 
             $("#Signupbtn").click(function () {
                 // alert();
-                if (!$("#txtEmail1").val() || !$("#txtPwd1").val()) {
+                if (!$("#txtEmail1").val() && !$("#txtPwd1").val()) {
                     alert("Please enter Email and Password");
+                    return;
+                }
+                if (!$("#txtEmail1").val()) {
+                    alert("Please enter Email ID");
+                    return;
+                }
+                if (!$("#txtPwd1").val()) {
+                    alert("Please enter Password");
                     return;
                 }
                 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -58,7 +66,7 @@
                     data: {
                         txtEmail1: $("#txtEmail1").val(),
                         txtPwd1: $("#txtPwd1").val(),
-                        utype: $("#comboUser").val(),
+                        utype: $("#comboUser").val()
                     }
                 }
                 $.ajax(obj1).then(
@@ -67,20 +75,28 @@
 
                     }).fail(function (err) {
 
-                        alert("Please fill valid Email ID and Password");
+                        alert("There was a problem processing your request. Please try again");
 
                     })
             })
 
             $("#Lbtn").click(function () {
                 // alert("1");
-                if (!$("#txtEmail2").val() || !$("#txtPwd2").val()) {
-                    alert("Please enter Email and Password");
+                if (!$("#txtEmail2").val() && !$("#txtPwd2").val()) {
+                    alert("Please enter Email ID and Password");
+                    return;
+                }
+                if (!$("#txtEmail2").val()) {
+                    alert("Please enter Email ID");
+                    return;
+                }
+                if (!$("#txtPwd2").val()) {
+                    alert("Please enter Password");
                     return;
                 }
                 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
                 if (!emailRegex.test($("#txtEmail2").val())) {
-                    alert("Invalid email format.");
+                    alert("Invalid Email ID format.");
                 }
                 const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d).{8,}$/;
                 if (!passwordRegex.test($("#txtPwd2").val())) {
@@ -93,7 +109,7 @@
                     url: "/do-login",
                     data: {
                         txtEmail2: $("#txtEmail2").val(),
-                        txtPwd2: $("#txtPwd2").val(),
+                        txtPwd2: $("#txtPwd2").val()
                     }
                 }
                 $.ajax(obj2).then(
@@ -118,14 +134,37 @@
 
                     }).fail(function (err) {
 
-                        alert(err.message);
+                        alert("Operation failed due to an internal error. Please try again");
+                    })
+            })
 
+            $("#FPwd").click(function () {
+            
+                if (!$("#txtPwd3").val()) {
+                    alert("Please enter Password");
+                    return;
+                }
+                let obj3 = {
+                    type: "get",
+                    url: "/forgot-password",
+                    data: {
+                        txtEmail3: $("#txtEmail3").val(),
+                        txtPwd3: $("#txtPwd3").val(),
+                        utype: $("#comboUser2").val()
+                    }
+                }
+                $.ajax(obj3).then(
+                    function (response) {
+                        alert(response);
+                    }).fail(function(err){
+                        alert("Operation failed due to an internal error. Please try again");
                     })
             })
         })
     </script>
     <script>
         $(document).ready(function () {
+            
             $("#eye1").click(function () {
                 let txt = $("#txtPwd1").prop("type");
                 if (txt == "password") {
@@ -188,6 +227,25 @@
 
             })
 
+            $("#txtEmail3").keyup(function () {
+                let email = $(this).val();//getter
+                //  let regex = /^[a-z0-9]+@[a-z]+\.[a-z]{2,3}$/;
+                let regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+                if (email == "") {
+                    $("#errMsgE3").html("Empty").css("color", "black").css("text-align", "left");
+                    $(this).focus();
+                }
+                else if (regex.test(email) == false) {
+                    $("#errMsgE3").html("Invalid Email ID").css("color", "red").css("text-align", "left");
+                    $(this).focus();
+                }
+                else {
+                    $("#errMsgE3").html("Valid").css("color", "green").css("text-align", "left");
+                }
+
+            })
+
             $("#txtPwd1").keyup(function () {
                 let regex = /^(?=.*[A-Za-z])(?=.*\d).{8,}$/;
                 let pwd = $(this).val();
@@ -203,6 +261,14 @@
                     $("#lblPwd2").html("Valid").css("color", "green");
                 else
                     $("#lblPwd2").html("Wrong Password").css("color", "red");
+            })
+            $("#txtPwd3").keyup(function () {
+                let regex = /^(?=.*[A-Za-z])(?=.*\d).{8,}$/;
+                let pwd = $(this).val();
+                if (regex.test(pwd) == true)
+                    $("#lblPwd3").html("Valid").css("color", "green");
+                else
+                    $("#lblPwd3").html("Wrong Password").css("color", "red");
             })
         })
     </script>
@@ -301,8 +367,8 @@
                         <center>
                             <div class="col-sm-3">
                                 <label for="comboUser" class="form-label">User Type</label>
-                                <select class="form-select" id="comboUser" style="width: 9vw;" required>
-                                    <option selected value="none" disabled>Select</option>
+                                <select class="form-select" id="comboUser" style="width: 9vw;">
+                                    <option selected value="none" readonly>Select</option>
                                     <option value="Organizer">Organizer</option>
                                     <option value="Player">Player</option>
                                 </select>
@@ -345,17 +411,142 @@
                                 <i class="fa-solid fa-eye-slash" id="eye2"
                                     style="width: 5vh;float: right;margin-top: 1vh;"></i>
                             </div>
-                            <div id="lblPwd2" class="ms-2" style="text-align: left;"></div>
+                            <div id="lblPwd2" class="ms-1" style="float: left;"></div>
                         </div>
 
-                        <center>
-                            <input type="button" value="Login" class="btn btn-info" id="Lbtn">
-                        </center>
+                        <!-- <div class="mt-3">
+                            <div class="me-2" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                                style="float: right;text-decoration: underline;color: blue;cursor: pointer;">Forgot
+                                Password?</div>
+                        </div> -->
+
+
                     </form>
+                </div>
+                <div class="modal-footer mt-2" style="justify-content: center;">
+                    <input type="button" value="Login" class="btn btn-info" id="Lbtn">
                 </div>
             </div>
         </div>
     </div>
+
+
+
+
+    <!-- Forgot Password Modal -->
+<!-- 
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Forgot Password</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <label for="txtEmail3" class="form-label">Email ID</label>
+                        <div class="form-floating">
+                            <input type="email" class="form-control" id="txtEmail3" placeholder="name@example.com">
+                            <label for="floatingInput">Email address</label>
+                        </div>
+                        <div id="errMsgE3" class="mb-3 ms-2" style="text-align: left;"></div> -->
+
+
+<!-- ------------------------------------------------------------------------------------------------------------------- -->
+
+
+                        <!-- <div class="mb-3">
+                            <label for="txtPwd1" class="form-label">Password</label>
+                            <div class="row form-control ms-0" style="height: 6vh;">
+                                <input type="password" class="ms-0" id="txtPwd1" placeholder="Minimum 8 characters"
+                                    minlength="8" style="width: 85%;outline: none;float: left;border: 0px;">
+                                <i class="fa-solid fa-eye-slash" id="eye1"
+                                    style="width: 5vh;float: right;margin-top: 1vh;"></i>
+                            </div>
+                            <div id="lblPwd1" class="ms-2" style="text-align: left;"></div>
+                        </div> -->
+
+
+                        <!-- OTP -->
+
+                        <!-- function generateOTP(length = 6) {
+                        let otp = '';
+                        for (let i = 0; i < length; i++) 
+                            { 
+                                otp +=Math.floor(Math.random() * 10); // generates 0-9v 
+                            }
+                            return otp; 
+                        }  -->
+<!-- ----------------------------------------------------------------------------------------------------------------------------- -->
+
+
+                            <!-- <center>
+                            <div class="col-sm-3">
+                                <label for="comboUser2" class="form-label">User Type</label>
+                                <select class="form-select" id="comboUser2" style="width: 9vw;" required>
+                                    <option selected value="none" readonly>Select</option>
+                                    <option value="Organizer">Organizer</option>
+                                    <option value="Player">Player</option>
+                                </select>
+                            </div>
+                            </center>
+                    </form>
+
+                    <div class="mt-2">
+                        Please ensure the above information is provided so we can move forward.
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal2">Next</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">New Password</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <label for="txtPwd3" class="form-label">New Password</label>
+                        <div class="form-floating">
+                            <input type="password" class="form-control" id="txtPwd3">
+                            <label for="floatingInput">Minimum 8 Characters</label>
+                        </div>
+                        <div id="lblPwd3" class="mb-3 ms-2" style="text-align: left;"></div> -->
+
+
+<!-- ------------------------------------------------------------------------------------------------------------------------------------------------- -->
+
+
+                        <!-- <label for="txtEmail1" class="form-label">Confirm Password</label>
+                        <div class="form-floating">
+                            <input type="password" class="form-control" id="txtEmail1">
+                            <label for="floatingInput">Minimum 8 Characters</label>
+                        </div>
+                        <div id="lblPwd4" class="mb-3 ms-2" style="text-align: left;"></div> -->
+<!-- -------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
+<!-- 
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info" id="FPwd">Save Password</button>
+                </div>
+            </div>
+        </div>
+    </div> -->
+
+
+<!-- ======================================================================================================================================= -->
+
 
 
 
@@ -594,8 +785,8 @@
                 </div>
                 <div class="card-body">
                     <center>
-                    <div class="card-text">Ridhi Sharma</div>
-                    <div class="card-text">Full Stack Developer</div>
+                        <div class="card-text">Ridhi Sharma</div>
+                        <div class="card-text">Full Stack Developer</div>
                     </center>
                 </div>
             </div>
@@ -610,8 +801,8 @@
                     Guidance of</div>
                 <div class="card-body">
                     <center>
-                    <div class="card-text">Rajesh Bansal</div>
-                    <div class="card-text">Author of 'Real Java'</div>
+                        <div class="card-text">Rajesh Bansal</div>
+                        <div class="card-text">Author of 'Real Java'</div>
                     </center>
                 </div>
             </div>

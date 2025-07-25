@@ -53,6 +53,11 @@ app.get("/save-user", function (req, resp) {
     let emailid = req.query.txtEmail1;
     let password = req.query.txtPwd1;
     let utype = req.query.utype;
+    
+    if(utype=="none"){
+        resp.send("Please select an User Type");
+        return;
+    }
 
     mySqlVen.query("insert into users values(?,?,?,current_date(),1) ;", [emailid, password, utype], function (errKuch) {
 
@@ -72,21 +77,9 @@ app.get("/do-login", function (req, resp) {
     let emailid = req.query.txtEmail2;
     let password = req.query.txtPwd2;
 
-    const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
-    if (!emailRegex.test(emailid)) {
-        return resp.send("Invalid Email ID format.");
-    }
-
-    // ✅ Password validation (min 6 chars, at least one letter and one number)
-    const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
-    if (!passwordRegex.test(password)) {
-        return resp.send("Password must be at least 8 characters long and should include uppercase as well as lowercase letters, numbers and special characters.");
-    }
-
     mySqlVen.query("select * from users where emailid=? and password=? ;", [emailid, password], function (err, allRecords) {
 
         let status = allRecords[0].status;
-        let utype = allRecords[0].utype;
 
         if (allRecords.length == 1) {
             if (status == 0) {
@@ -100,6 +93,27 @@ app.get("/do-login", function (req, resp) {
             resp.send("Invalid");
     })
 })
+
+// app.get("/forgot-password", function (req, resp) {
+
+//     let emailid = req.query.txtEmail3;
+//     let password = req.query.txtPwd3;
+//     let utype = req.query.utype;
+
+//     if(utype=="none"){
+//         resp.send("Please select an User Type");
+//         return;
+//     }
+
+//     mySqlVen.query("update users set password=? where emailid=? and utype=?;", [password, emailid, utype], function (err) {
+//         if (err == null) {
+//             resp.send("New Password Saved Successfully");
+//         }
+//         else
+//             resp.send("An error has occurred. Please try again.");
+//     })
+
+// })
 
 app.post("/do-send-to-server", async function (req, resp) {
 
@@ -576,21 +590,32 @@ app.get("/do-fetch-age", function (req, resp) {
 
 app.get("/do-update", function (req, resp) {
 
-    let NewPwd = req.query.NewPwd;
     let emailid = req.query.emailid;
+    let NewPwd = req.query.NewPwd;
     let OldPwd = req.query.OldPwd;
 
-    query = "update users set password=? where emailid=? and password=?";
+    query1 = "select * from users where emailid=?";
 
-    mySqlVen.query(query, [NewPwd, emailid, OldPwd], function (err, result) {
+    mySqlVen.query(query1, [emailid], function (errKuch, allRecords) {
 
-        if (err == null) {
-            if (result.affectedRows == 1)
-                resp.send("Record Updated Successfuly ...");
-            else
-                resp.send("Inavlid");
+        if (allRecords[0].password == OldPwd) {
+
+            query2 = "update users set password=? where emailid=? and password=?";
+
+            mySqlVen.query(query2, [NewPwd, emailid, OldPwd], function (err, result) {
+
+                if (err == null) {
+                    if (result.affectedRows == 1)
+                        resp.send("Record Updated Successfuly ...");
+                    else
+                        resp.send("Inavlid");
+                }
+                else
+                    resp.send(err.message);
+            })
         }
-        else
-            resp.send(err.message);
+        else {
+            resp.send("Incorrect Old Password. Please try again.");
+        }
     })
 })
