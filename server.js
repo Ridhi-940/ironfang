@@ -272,7 +272,7 @@ app.get("/delete-one", function (req, resp) {
     mySqlVen.query("delete from tournament_details where R_ID=?", [ridKuch], function (errKuch, result) {
         if (errKuch == null) {
             if (result.affectedRows == 1)
-                resp.send("Deleted Successfulllyyyy...");
+                resp.send("Deleted Successfully...");
             else
                 resp.send("Invalid Email id");
         }
