@@ -189,7 +189,7 @@ app.post("/Modify-user", async function (req, resp) {
         });
     }
     else
-        picurl = req.body.hdn.value;
+        picurl = req.body.hdn;
 
     let Email_ID = req.body.txtEmail3;
     let Organisation_Name = req.body.txtOrgName;
