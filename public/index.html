@@ -138,28 +138,28 @@
                     })
             })
 
-            $("#FPwd").click(function () {
+            // $("#FPwd").click(function () {
             
-                if (!$("#txtPwd3").val()) {
-                    alert("Please enter Password");
-                    return;
-                }
-                let obj3 = {
-                    type: "get",
-                    url: "/forgot-password",
-                    data: {
-                        txtEmail3: $("#txtEmail3").val(),
-                        txtPwd3: $("#txtPwd3").val(),
-                        utype: $("#comboUser2").val()
-                    }
-                }
-                $.ajax(obj3).then(
-                    function (response) {
-                        alert(response);
-                    }).fail(function(err){
-                        alert("Operation failed due to an internal error. Please try again");
-                    })
-            })
+            //     if (!$("#txtPwd3").val()) {
+            //         alert("Please enter Password");
+            //         return;
+            //     }
+            //     let obj3 = {
+            //         type: "get",
+            //         url: "/forgot-password",
+            //         data: {
+            //             txtEmail3: $("#txtEmail3").val(),
+            //             txtPwd3: $("#txtPwd3").val(),
+            //             utype: $("#comboUser2").val()
+            //         }
+            //     }
+            //     $.ajax(obj3).then(
+            //         function (response) {
+            //             alert(response);
+            //         }).fail(function(err){
+            //             alert("Operation failed due to an internal error. Please try again");
+            //         })
+            // })
         })
     </script>
     <script>
@@ -227,24 +227,24 @@
 
             })
 
-            $("#txtEmail3").keyup(function () {
-                let email = $(this).val();//getter
-                //  let regex = /^[a-z0-9]+@[a-z]+\.[a-z]{2,3}$/;
-                let regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            // $("#txtEmail3").keyup(function () {
+            //     let email = $(this).val();//getter
+            //     //  let regex = /^[a-z0-9]+@[a-z]+\.[a-z]{2,3}$/;
+            //     let regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-                if (email == "") {
-                    $("#errMsgE3").html("Empty").css("color", "black").css("text-align", "left");
-                    $(this).focus();
-                }
-                else if (regex.test(email) == false) {
-                    $("#errMsgE3").html("Invalid Email ID").css("color", "red").css("text-align", "left");
-                    $(this).focus();
-                }
-                else {
-                    $("#errMsgE3").html("Valid").css("color", "green").css("text-align", "left");
-                }
+            //     if (email == "") {
+            //         $("#errMsgE3").html("Empty").css("color", "black").css("text-align", "left");
+            //         $(this).focus();
+            //     }
+            //     else if (regex.test(email) == false) {
+            //         $("#errMsgE3").html("Invalid Email ID").css("color", "red").css("text-align", "left");
+            //         $(this).focus();
+            //     }
+            //     else {
+            //         $("#errMsgE3").html("Valid").css("color", "green").css("text-align", "left");
+            //     }
 
-            })
+            // })
 
             $("#txtPwd1").keyup(function () {
                 let regex = /^(?=.*[A-Za-z])(?=.*\d).{8,}$/;
@@ -262,14 +262,14 @@
                 else
                     $("#lblPwd2").html("Wrong Password").css("color", "red");
             })
-            $("#txtPwd3").keyup(function () {
-                let regex = /^(?=.*[A-Za-z])(?=.*\d).{8,}$/;
-                let pwd = $(this).val();
-                if (regex.test(pwd) == true)
-                    $("#lblPwd3").html("Valid").css("color", "green");
-                else
-                    $("#lblPwd3").html("Wrong Password").css("color", "red");
-            })
+            // $("#txtPwd3").keyup(function () {
+            //     let regex = /^(?=.*[A-Za-z])(?=.*\d).{8,}$/;
+            //     let pwd = $(this).val();
+            //     if (regex.test(pwd) == true)
+            //         $("#lblPwd3").html("Valid").css("color", "green");
+            //     else
+            //         $("#lblPwd3").html("Wrong Password").css("color", "red");
+            // })
         })
     </script>
 
