@@ -284,7 +284,7 @@ app.get("/delete-one", function (req, resp) {
 
 app.get("/do-Fetch-Users", function (req, resp) {
 
-    mySqlVen.query("select * from users where emailid=?", [req.query.txtEmail], function (err, allRecords) {
+    mySqlVen.query("select * from users", function (err, allRecords) {
 
         resp.send(allRecords);
     })

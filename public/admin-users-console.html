@@ -19,7 +19,7 @@
 
             $scope.doFetch = function () {
 
-                var url = "/do-Fetch-Users?txtEmail=" + localStorage.getItem("activeUser");
+                var url = "/do-Fetch-Users?";
                 $http.get(url).then(allGoodFx, someBadFx);
                 function allGoodFx(response) {
 
@@ -65,12 +65,6 @@
 
         })
 
-    </script>
-    <script>
-    function showUser() {
-      let activeUser = localStorage.getItem("activeUser");
-      document.getElementById("txtEmail").value = activeUser;
-    }
     </script>
 </head>
 <!-- JsonArray -->
